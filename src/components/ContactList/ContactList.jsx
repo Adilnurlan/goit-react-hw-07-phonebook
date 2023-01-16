@@ -1,13 +1,21 @@
 import PropTypes from 'prop-types';
 import s from './ContactList.module.css';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts, getFilterContacts } from 'redux/selectors';
-import { deleteContact } from 'redux/contacts/contactsSlice';
+import { selectContacts, selectFilterContacts } from 'redux/selectors';
+import {
+  deleteContacts,
+  fetchContacts,
+} from 'redux/contacts/contacts-operations';
 
 export default function ContactList() {
-  const contacts = useSelector(getContacts);
-  const filterContacts = useSelector(getFilterContacts);
+  const contacts = useSelector(selectContacts);
+  const filterContacts = useSelector(selectFilterContacts);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const findContact = () => {
     return contacts.filter(contact => {
@@ -26,7 +34,7 @@ export default function ContactList() {
             <p className={s.contactInfo}>
               {name}: {number}
             </p>
-            <button type="button" onClick={() => dispatch(deleteContact(id))}>
+            <button type="button" onClick={() => dispatch(deleteContacts(id))}>
               Delete
             </button>
           </li>

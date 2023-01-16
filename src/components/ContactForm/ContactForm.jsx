@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import s from './ContactForm.module.css';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contacts/contactsSlice';
-import { getContacts } from 'redux/selectors';
+import { addContacts } from 'redux/contacts/contacts-operations';
+import { selectContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleChange = ({ currentTarget: { name, value } }) => {
@@ -36,7 +36,7 @@ export const ContactForm = () => {
     ) {
       return alert('Заполните все поля');
     }
-    dispatch(addContact(newContact));
+    dispatch(addContacts(newContact));
   };
 
   const handleSubmit = evt => {
